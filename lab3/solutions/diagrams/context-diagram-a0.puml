@@ -1,0 +1,84 @@
+@startuml context-diagram-a0
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam rectangleBorderColor #2E5090
+skinparam rectangleBackgroundColor #4472C4
+skinparam rectangleFontColor white
+skinparam rectangleFontSize 11
+skinparam rectangleFontStyle bold
+skinparam arrowColor black
+skinparam arrowThickness 2
+
+title Контекстная диаграмма A-0\nСистема управления прокатом спортивного оборудования SportRent\n
+
+legend top left
+|= **Параметр** |= **Значение** |
+| USED AT: | Разработка функциональной модели ИС |
+| AUTHOR: | Студент |
+| DATE: | 02.11.2025 |
+| PROJECT: | SportRent |
+| REV: | 1.0 |
+| NOTES: | Контекстная диаграмма (A-0) |
+| NODE: | A0 |
+endlegend
+
+' Главный функциональный блок
+rectangle "**Автоматизировать\nуправление прокатом\nспортивного оборудования**\n\nSportRent\n\nA0" as A0 #4472C4
+
+' Входы (Input - слева)
+storage "Заявка клиента\nна аренду" as Input1 #FFF2CC
+storage "Персональные\nданные клиента" as Input2 #FFF2CC
+storage "Данные об\nоборудовании" as Input3 #FFF2CC
+storage "Платежная\nинформация" as Input4 #FFF2CC
+
+' Управление (Control - сверху)
+collections "ФЗ-152 о\nперсональных\nданных" as Control1 #E7E6E6
+collections "Политика\nкомпании" as Control2 #E7E6E6
+collections "ГОСТ\n34.602-2020" as Control3 #E7E6E6
+collections "Алгоритмы\nобработки\nзаказов" as Control4 #E7E6E6
+
+' Выходы (Output - справа)
+file "Договор\nаренды" as Output1 #D5E8D4
+file "Квитанция\nоб оплате" as Output2 #D5E8D4
+file "Акт приема-\nпередачи" as Output3 #D5E8D4
+file "Отчеты и\nаналитика" as Output4 #D5E8D4
+file "Информация\nо статусе" as Output5 #D5E8D4
+
+' Механизмы (Mechanism - снизу)
+actor "Клиенты" as Mech1
+actor "Менеджеры" as Mech2
+actor "Администраторы" as Mech3
+actor "Складской\nперсонал" as Mech4
+database "СУБД\nPostgreSQL" as Mech5
+cloud "Платежная\nсистема" as Mech6
+
+' Входящие стрелки (слева)
+Input1 -right-> A0 : I1
+Input2 -right-> A0 : I2
+Input3 -right-> A0 : I3
+Input4 -right-> A0 : I4
+
+' Стрелки управления (сверху)
+Control1 -down-> A0 : C1
+Control2 -down-> A0 : C2
+Control3 -down-> A0 : C3
+Control4 -down-> A0 : C4
+
+' Исходящие стрелки (справа)
+A0 -right-> Output1 : O1
+A0 -right-> Output2 : O2
+A0 -right-> Output3 : O3
+A0 -right-> Output4 : O4
+A0 -right-> Output5 : O5
+
+' Стрелки механизмов (снизу)
+Mech1 -up-> A0 : M1
+Mech2 -up-> A0 : M2
+Mech3 -up-> A0 : M3
+Mech4 -up-> A0 : M4
+Mech5 -up-> A0 : M5
+Mech6 -up-> A0 : M6
+
+@enduml
