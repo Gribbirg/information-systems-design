@@ -38,20 +38,55 @@ Each laboratory work has the following structure:
 labN/
 ├── task/
 │   └── README.md
+├── solutions/
+│   ├── diagrams/
+│   └── report-draft.md
 └── report/
+    ├── report.md
+    └── report.docx
 ```
 
 - `task/` - directory with assignment requirements, implementation process, and working materials
   - `README.md` - assignment description, implementation details, and results
+- `solutions/` - directory for work-in-progress materials and solutions
+  - `diagrams/` - all created diagrams (PlantUML source files and generated images)
+  - `report-draft.md` - draft report in plain Markdown style (without Pandoc formatting)
 - `report/` - directory for final formatted reports ready for submission
+  - `report.md` - final report with Pandoc formatting and metadata
+  - `report.docx` - converted Word document ready for submission
 
 ## Workflow
 
-1. For each laboratory work, working materials are placed in the corresponding `labN/task/` directory
-2. Use PlantUML from `/common/plantuml/` to create diagrams
-3. Follow the recommendations from `/docs/report-formatting-guidelines.md` for report formatting
-4. Final reports are placed in the `labN/report/` directory
-5. All changes are committed through Git
+When working on a laboratory assignment, follow these steps in order:
+
+### Step 1: Create Diagrams
+1. Create all necessary diagrams in `labN/solutions/diagrams/` directory
+2. Use PlantUML from `/common/plantuml/` to create UML diagrams
+3. Generate PNG/SVG images from PlantUML source files
+4. Save both source files (`.puml`) and generated images (`.png`) in `solutions/diagrams/`
+
+### Step 2: Create Report Draft
+1. Create `labN/solutions/report-draft.md` in plain Markdown style
+2. Include all content: theoretical part, practical part, descriptions, glossary, answers
+3. Use standard Markdown syntax without Pandoc-specific features
+4. Reference diagrams using relative paths: `![Diagram](diagrams/diagram-name.png)`
+
+### Step 3: Create Final Report with Pandoc
+1. Create `labN/report/report.md` with Pandoc formatting
+2. Add YAML metadata header with title, author, date, and formatting options
+3. Follow recommendations from `/docs/report-formatting-guidelines.md`
+4. Use Pandoc-specific features (page breaks, custom styles, etc.)
+5. Reference diagrams from `../solutions/diagrams/`
+
+### Step 4: Convert to DOCX
+1. Use Pandoc to convert `labN/report/report.md` to `labN/report/report.docx`
+2. Apply style template from `/common/style_source.docx` if needed
+3. Verify formatting in the generated DOCX file
+4. The DOCX file is ready for submission
+
+### Step 5: Commit Changes
+1. Commit all changes to Git with descriptive commit message in English
+2. Push changes to remote repository
 
 ## Tools
 

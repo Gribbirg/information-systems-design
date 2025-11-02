@@ -105,7 +105,7 @@
 
 ### 3.3. Диаграмма прецедентов системы SportRent
 
-![Диаграмма прецедентов системы SportRent](../task/use-case-diagram.png)
+![Диаграмма прецедентов системы SportRent](diagrams/use-case-diagram.png)
 
 *Рисунок 1 – Диаграмма прецедентов системы SportRent*
 
