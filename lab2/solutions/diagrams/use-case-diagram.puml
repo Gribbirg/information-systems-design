@@ -18,75 +18,45 @@ actor "Платежная\nсистема" as PaymentSystem
 rectangle "Система SportRent" {
 
   ' === Прецеденты для работы с аутентификацией ===
-  usecase "Регистрация" as UC01
   usecase "Авторизация" as UC02
   usecase "Управление профилем" as UC03
 
   ' === Прецеденты для работы с каталогом ===
   usecase "Просмотр каталога\nоборудования" as UC04
   usecase "Поиск оборудования" as UC05
-  usecase "Фильтрация по категориям" as UC06
-  usecase "Просмотр детальной\nинформации" as UC07
 
   ' === Прецеденты для бронирования и заказов ===
   usecase "Создание бронирования" as UC08
-  usecase "Выбор периода аренды" as UC09
   usecase "Проверка наличия\nоборудования" as UC10
   usecase "Оформление заказа" as UC11
-  usecase "Расчет стоимости" as UC12
   usecase "Оплата заказа" as UC13
   usecase "Обработка платежа" as UC14
-  usecase "Подтверждение заказа" as UC15
-  usecase "Отмена бронирования" as UC16
 
   ' === Прецеденты для работы клиента с историей ===
   usecase "Просмотр истории\nаренды" as UC17
-  usecase "Оценка оборудования" as UC18
 
   ' === Прецеденты для управления каталогом (Менеджер) ===
-  usecase "Управление каталогом\nоборудования" as UC19
-  usecase "Добавление оборудования" as UC20
-  usecase "Редактирование\nоборудования" as UC21
-  usecase "Удаление оборудования" as UC22
-  usecase "Управление категориями" as UC23
+  usecase "Управление каталогом" as UC19
   usecase "Управление ценами" as UC24
 
   ' === Прецеденты для обработки заказов (Менеджер) ===
   usecase "Обработка заказов" as UC25
-  usecase "Изменение статуса\nзаказа" as UC26
 
-  ' === Прецеденты для отчетности и аналитики ===
+  ' === Прецеденты для отчетности ===
   usecase "Формирование отчетов" as UC27
-  usecase "Отчет по выручке" as UC28
-  usecase "Отчет по популярности\nоборудования" as UC29
-  usecase "Отчет по клиентам" as UC30
-  usecase "Просмотр аналитики" as UC31
 
   ' === Прецеденты для складских операций ===
   usecase "Выдача оборудования" as UC32
-  usecase "Проверка документов\nклиента" as UC33
-  usecase "Регистрация выдачи" as UC34
   usecase "Прием возврата\nоборудования" as UC35
-  usecase "Проверка состояния\nоборудования" as UC36
-  usecase "Регистрация возврата" as UC37
-  usecase "Обновление складских\nзаписей" as UC38
   usecase "Инвентаризация" as UC39
 
   ' === Прецеденты для администрирования ===
   usecase "Управление\nпользователями" as UC40
-  usecase "Создание пользователя" as UC41
-  usecase "Редактирование\nпользователя" as UC42
-  usecase "Удаление пользователя" as UC43
-  usecase "Управление ролями\nи правами" as UC44
   usecase "Настройка системы" as UC45
-  usecase "Управление безопасностью" as UC46
   usecase "Резервное копирование" as UC47
-  usecase "Просмотр логов системы" as UC48
-  usecase "Мониторинг системы" as UC49
 }
 
 ' === Связи Клиента ===
-Client --> UC01
 Client --> UC02
 Client --> UC03
 Client --> UC04
@@ -94,9 +64,7 @@ Client --> UC05
 Client --> UC08
 Client --> UC11
 Client --> UC13
-Client --> UC16
 Client --> UC17
-Client --> UC18
 
 ' === Связи Менеджера ===
 Manager --> UC02
@@ -104,24 +72,18 @@ Manager --> UC19
 Manager --> UC24
 Manager --> UC25
 Manager --> UC27
-Manager --> UC31
 
 ' === Связи Складского работника ===
 Warehouse --> UC02
 Warehouse --> UC32
 Warehouse --> UC35
-Warehouse --> UC38
 Warehouse --> UC39
 
 ' === Связи Администратора ===
 Admin --> UC02
 Admin --> UC40
-Admin --> UC44
 Admin --> UC45
-Admin --> UC46
 Admin --> UC47
-Admin --> UC48
-Admin --> UC49
 
 ' === Связи с внешней системой ===
 PaymentSystem --> UC14
@@ -130,41 +92,13 @@ PaymentSystem --> UC14
 UC02 ..> UC03 : <<include>>
 
 UC05 ..> UC04 : <<include>>
-UC05 ..> UC06 : <<include>>
 
 UC08 ..> UC04 : <<include>>
-UC08 ..> UC09 : <<include>>
 UC08 ..> UC10 : <<include>>
 
 UC11 ..> UC08 : <<include>>
-UC11 ..> UC12 : <<include>>
 
 UC13 ..> UC14 : <<include>>
-UC13 ..> UC15 : <<include>>
-
-UC19 ..> UC20 : <<include>>
-UC19 ..> UC21 : <<include>>
-UC19 ..> UC22 : <<include>>
-UC19 ..> UC23 : <<include>>
-
-UC27 ..> UC28 : <<include>>
-UC27 ..> UC29 : <<include>>
-UC27 ..> UC30 : <<include>>
-
-UC32 ..> UC33 : <<include>>
-UC32 ..> UC34 : <<include>>
-
-UC35 ..> UC36 : <<include>>
-UC35 ..> UC37 : <<include>>
-
-UC40 ..> UC41 : <<include>>
-UC40 ..> UC42 : <<include>>
-UC40 ..> UC43 : <<include>>
-
-' === Связи расширения (extend) ===
-UC07 .up.> UC04 : <<extend>>
-UC18 .up.> UC17 : <<extend>>
-UC16 .up.> UC08 : <<extend>>
 
 ' === Связи обобщения ===
 Admin -up-|> Manager : inherits
@@ -180,12 +114,6 @@ note right of UC14
   Взаимодействие с внешней
   платежной системой для
   обработки транзакций
-end note
-
-note bottom of UC36
-  Проверка на наличие
-  повреждений, полноту
-  комплектации
 end note
 
 @enduml
