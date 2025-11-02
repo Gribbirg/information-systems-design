@@ -1,0 +1,43 @@
+@startuml dfd-level0
+skinparam rectangle {
+  BackgroundColor LightYellow
+  BorderColor Black
+  FontSize 12
+  RoundCorner 5
+}
+skinparam database {
+  BackgroundColor LightBlue
+  BorderColor Black
+}
+skinparam actor {
+  BackgroundColor LightGreen
+  BorderColor Black
+}
+skinparam component {
+  BackgroundColor White
+  BorderColor Black
+}
+
+title DFD Level 0: Оформлять договор аренды (A33)
+
+' Внешние сущности
+actor "Клиент" as Client
+actor "Менеджер" as Manager
+actor "Система\nоплаты" as PaymentSystem
+component "Модуль\nбронирования" as BookingModule
+component "Архив\nдоговоров" as Archive
+
+' Центральный процесс
+rectangle "**A33**\n\nОформлять\nдоговор\nаренды" as A33
+
+' Потоки данных - входящие
+Client -down-> A33 : Данные\nклиента
+PaymentSystem -down-> A33 : Статус\nоплаты
+BookingModule -right-> A33 : Данные\nбронирования
+
+' Потоки данных - исходящие
+A33 -up-> Manager : Проект договора\nна утверждение
+A33 -up-> Client : Договор\nаренды
+A33 -down-> Archive : Данные договора\nдля архива
+
+@enduml
