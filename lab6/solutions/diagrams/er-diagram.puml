@@ -1,0 +1,326 @@
+@startuml er-diagram
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <b>PK: x</b>
+!define foreign_key(x) <color:green>FK: x</color>
+!define column(x) <color:blue>x</color>
+
+' Настройки отображения
+skinparam linetype ortho
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' Сущность: Клиент
+entity "Client" as client {
+    primary_key(client_id : INTEGER)
+    --
+    column(first_name : VARCHAR(100))
+    column(last_name : VARCHAR(100))
+    column(middle_name : VARCHAR(100))
+    column(passport_series : VARCHAR(10))
+    column(passport_number : VARCHAR(20))
+    column(passport_issued_by : VARCHAR(255))
+    column(passport_issued_date : DATE)
+    column(birth_date : DATE)
+    column(address : TEXT)
+    column(phone : VARCHAR(20))
+    column(email : VARCHAR(100))
+    column(registration_date : TIMESTAMP)
+    column(is_active : BOOLEAN)
+    column(client_type : VARCHAR(20))
+    column(inn : VARCHAR(20))
+    column(organization_name : VARCHAR(255))
+}
+
+' Сущность: Пользователь
+entity "User" as user {
+    primary_key(user_id : INTEGER)
+    --
+    foreign_key(client_id : INTEGER)
+    foreign_key(employee_id : INTEGER)
+    column(username : VARCHAR(50))
+    column(password_hash : VARCHAR(255))
+    column(email : VARCHAR(100))
+    column(role : VARCHAR(20))
+    column(last_login : TIMESTAMP)
+    column(is_active : BOOLEAN)
+    column(created_at : TIMESTAMP)
+    column(updated_at : TIMESTAMP)
+}
+
+' Сущность: Сотрудник
+entity "Employee" as employee {
+    primary_key(employee_id : INTEGER)
+    --
+    column(first_name : VARCHAR(100))
+    column(last_name : VARCHAR(100))
+    column(middle_name : VARCHAR(100))
+    column(position : VARCHAR(100))
+    column(phone : VARCHAR(20))
+    column(email : VARCHAR(100))
+    column(hire_date : DATE)
+    column(salary : DECIMAL(10,2))
+    column(is_active : BOOLEAN)
+    column(department : VARCHAR(50))
+}
+
+' Сущность: Категория оборудования
+entity "EquipmentCategory" as category {
+    primary_key(category_id : INTEGER)
+    --
+    foreign_key(parent_category_id : INTEGER)
+    column(category_name : VARCHAR(100))
+    column(description : TEXT)
+    column(image_url : VARCHAR(255))
+}
+
+' Сущность: Оборудование
+entity "Equipment" as equipment {
+    primary_key(equipment_id : INTEGER)
+    --
+    foreign_key(category_id : INTEGER)
+    column(name : VARCHAR(255))
+    column(description : TEXT)
+    column(brand : VARCHAR(100))
+    column(model : VARCHAR(100))
+    column(size : VARCHAR(20))
+    column(color : VARCHAR(50))
+    column(daily_rate : DECIMAL(10,2))
+    column(hourly_rate : DECIMAL(10,2))
+    column(deposit_amount : DECIMAL(10,2))
+    column(quantity_total : INTEGER)
+    column(quantity_available : INTEGER)
+    column(condition_status : VARCHAR(50))
+    column(purchase_date : DATE)
+    column(purchase_price : DECIMAL(10,2))
+    column(image_urls : JSON)
+    column(is_active : BOOLEAN)
+    column(technical_specs : JSON)
+}
+
+' Сущность: Единица оборудования
+entity "EquipmentItem" as item {
+    primary_key(item_id : INTEGER)
+    --
+    foreign_key(equipment_id : INTEGER)
+    column(serial_number : VARCHAR(100))
+    column(inventory_number : VARCHAR(100))
+    column(status : VARCHAR(50))
+    column(condition : INTEGER)
+    column(last_inspection_date : DATE)
+    column(next_maintenance_date : DATE)
+    column(notes : TEXT)
+    column(location : VARCHAR(100))
+}
+
+' Сущность: Бронирование
+entity "Booking" as booking {
+    primary_key(booking_id : INTEGER)
+    --
+    foreign_key(client_id : INTEGER)
+    foreign_key(equipment_id : INTEGER)
+    column(quantity : INTEGER)
+    column(start_date : DATE)
+    column(end_date : DATE)
+    column(booking_date : TIMESTAMP)
+    column(status : VARCHAR(50))
+    column(total_price : DECIMAL(10,2))
+    column(notes : TEXT)
+}
+
+' Сущность: Заказ
+entity "Order" as order {
+    primary_key(order_id : INTEGER)
+    --
+    foreign_key(booking_id : INTEGER)
+    foreign_key(client_id : INTEGER)
+    foreign_key(manager_id : INTEGER)
+    column(order_date : TIMESTAMP)
+    column(start_date : DATE)
+    column(end_date : DATE)
+    column(status : VARCHAR(50))
+    column(subtotal : DECIMAL(10,2))
+    column(deposit : DECIMAL(10,2))
+    column(total_amount : DECIMAL(10,2))
+    column(discount_amount : DECIMAL(10,2))
+    column(notes : TEXT)
+}
+
+' Сущность: Позиция заказа
+entity "OrderItem" as orderitem {
+    primary_key(order_item_id : INTEGER)
+    --
+    foreign_key(order_id : INTEGER)
+    foreign_key(equipment_id : INTEGER)
+    foreign_key(item_id : INTEGER)
+    column(quantity : INTEGER)
+    column(daily_rate : DECIMAL(10,2))
+    column(rental_days : INTEGER)
+    column(item_subtotal : DECIMAL(10,2))
+    column(deposit_per_item : DECIMAL(10,2))
+}
+
+' Сущность: Шаблон договора
+entity "ContractTemplate" as template {
+    primary_key(template_id : INTEGER)
+    --
+    foreign_key(created_by : INTEGER)
+    column(template_name : VARCHAR(255))
+    column(template_text : TEXT)
+    column(version : VARCHAR(20))
+    column(is_active : BOOLEAN)
+    column(created_date : TIMESTAMP)
+    column(last_modified_date : TIMESTAMP)
+}
+
+' Сущность: Договор
+entity "Contract" as contract {
+    primary_key(contract_id : INTEGER)
+    --
+    foreign_key(order_id : INTEGER)
+    foreign_key(client_id : INTEGER)
+    foreign_key(manager_id : INTEGER)
+    foreign_key(template_id : INTEGER)
+    column(contract_number : VARCHAR(50))
+    column(contract_date : DATE)
+    column(start_date : DATE)
+    column(end_date : DATE)
+    column(contract_text : TEXT)
+    column(status : VARCHAR(50))
+    column(signed_by_client_date : TIMESTAMP)
+    column(signed_by_manager_date : TIMESTAMP)
+    column(digital_signature_client : TEXT)
+    column(digital_signature_manager : TEXT)
+    column(file_url : VARCHAR(255))
+}
+
+' Сущность: Платеж
+entity "Payment" as payment {
+    primary_key(payment_id : INTEGER)
+    --
+    foreign_key(order_id : INTEGER)
+    foreign_key(client_id : INTEGER)
+    column(payment_type : VARCHAR(50))
+    column(payment_method : VARCHAR(50))
+    column(amount : DECIMAL(10,2))
+    column(payment_date : TIMESTAMP)
+    column(status : VARCHAR(50))
+    column(transaction_id : VARCHAR(100))
+    column(receipt_number : VARCHAR(100))
+    column(receipt_url : VARCHAR(255))
+    column(notes : TEXT)
+}
+
+' Сущность: Выдача/Возврат
+entity "RentalTransaction" as rental {
+    primary_key(transaction_id : INTEGER)
+    --
+    foreign_key(order_item_id : INTEGER)
+    foreign_key(item_id : INTEGER)
+    foreign_key(employee_id : INTEGER)
+    column(transaction_type : VARCHAR(20))
+    column(transaction_date : TIMESTAMP)
+    column(condition_before : INTEGER)
+    column(condition_after : INTEGER)
+    column(has_damage : BOOLEAN)
+    column(damage_description : TEXT)
+    column(fine_amount : DECIMAL(10,2))
+    column(notes : TEXT)
+    column(signature_url : VARCHAR(255))
+}
+
+' Сущность: Техническое обслуживание
+entity "Maintenance" as maintenance {
+    primary_key(maintenance_id : INTEGER)
+    --
+    foreign_key(item_id : INTEGER)
+    foreign_key(performed_by : INTEGER)
+    column(maintenance_type : VARCHAR(50))
+    column(maintenance_date : DATE)
+    column(description : TEXT)
+    column(cost : DECIMAL(10,2))
+    column(parts_replaced : TEXT)
+    column(next_maintenance_date : DATE)
+    column(status : VARCHAR(50))
+}
+
+' Сущность: Отчет
+entity "Report" as report {
+    primary_key(report_id : INTEGER)
+    --
+    foreign_key(generated_by : INTEGER)
+    column(report_type : VARCHAR(50))
+    column(generation_date : TIMESTAMP)
+    column(period_start : DATE)
+    column(period_end : DATE)
+    column(report_data : JSON)
+    column(file_url : VARCHAR(255))
+    column(notes : TEXT)
+}
+
+' Сущность: Уведомление
+entity "Notification" as notification {
+    primary_key(notification_id : INTEGER)
+    --
+    foreign_key(user_id : INTEGER)
+    column(notification_type : VARCHAR(50))
+    column(title : VARCHAR(255))
+    column(message : TEXT)
+    column(created_date : TIMESTAMP)
+    column(is_read : BOOLEAN)
+    column(read_date : TIMESTAMP)
+    column(priority : VARCHAR(20))
+}
+
+' Связи между сущностями
+
+' User связи
+user }o--|| client : "может быть клиентом"
+user }o--|| employee : "может быть сотрудником"
+user ||--o{ notification : "получает"
+
+' Client связи
+client ||--o{ booking : "создает"
+client ||--o{ order : "имеет"
+client ||--o{ contract : "подписывает"
+client ||--o{ payment : "совершает"
+
+' Employee связи
+employee ||--o{ order : "обрабатывает"
+employee ||--o{ contract : "утверждает"
+employee ||--o{ rental : "выполняет"
+employee ||--o{ maintenance : "проводит"
+employee ||--o{ report : "генерирует"
+employee ||--o{ template : "создает"
+
+' EquipmentCategory связи
+category ||--o{ equipment : "содержит"
+category }o--|| category : "имеет родительскую"
+
+' Equipment связи
+equipment ||--o{ item : "имеет экземпляры"
+equipment ||--o{ booking : "в бронировании"
+equipment ||--o{ orderitem : "в позиции заказа"
+
+' EquipmentItem связи
+item ||--o{ orderitem : "в заказе"
+item ||--o{ rental : "участвует в операции"
+item ||--o{ maintenance : "обслуживается"
+
+' Booking связи
+booking ||--o| order : "преобразуется в"
+
+' Order связи
+order ||--o{ orderitem : "содержит позиции"
+order ||--o| contract : "имеет договор"
+order ||--o{ payment : "оплачивается"
+
+' OrderItem связи
+orderitem ||--o{ rental : "выдается/возвращается"
+
+' ContractTemplate связи
+template ||--o{ contract : "используется для"
+
+@enduml
