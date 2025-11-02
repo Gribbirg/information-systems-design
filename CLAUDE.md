@@ -61,4 +61,15 @@ labN/
 
 ## Language Policy
 
-All content in this project (documentation, code, comments, commit messages) must be written in English to maintain consistency and professional standards.
+**Git Commit Messages:** All commit messages MUST be written in English to maintain professional standards.
+
+**Laboratory Work Documentation:** All practical work documentation, reports, diagrams, and content within `labN/task/` and `labN/report/` directories MUST be written in Russian. This includes:
+- Requirements documentation
+- Technical specifications
+- PlantUML diagrams (labels, descriptions, comments)
+- Reports and analyses
+- Any working materials
+
+**Project Documentation:** General project documentation in `/docs/` directory should be in English for consistency.
+
+**Communication Language:** All communication with the user and task execution MUST be strictly in Russian. Claude should respond to the user in Russian and discuss implementation details in Russian.

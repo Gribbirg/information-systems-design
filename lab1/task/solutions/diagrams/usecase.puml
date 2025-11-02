@@ -1,0 +1,57 @@
+@startuml
+' Диаграмма вариантов использования системы SportRent
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Клиент" as client
+actor "Менеджер" as manager
+actor "Администратор" as admin
+actor "Складской\nработник" as warehouse
+
+rectangle "Система SportRent" {
+  ' Основные варианты использования для клиента
+  usecase "Просмотр каталога" as UC1
+  usecase "Бронирование" as UC2
+  usecase "Оплата" as UC3
+  usecase "Управление профилем" as UC4
+
+  ' Основные варианты использования для менеджера
+  usecase "Управление\nкаталогом" as UC5
+  usecase "Обработка заказов" as UC6
+  usecase "Генерация отчетов" as UC7
+
+  ' Основные варианты использования для администратора
+  usecase "Управление\nпользователями" as UC8
+  usecase "Настройка системы" as UC9
+
+  ' Основные варианты использования для складского работника
+  usecase "Выдача\nоборудования" as UC10
+  usecase "Прием\nоборудования" as UC11
+  usecase "Контроль состояния" as UC12
+}
+
+' Связи для клиента
+client --> UC1
+client --> UC2
+client --> UC3
+client --> UC4
+
+' Связи для менеджера
+manager --> UC5
+manager --> UC6
+manager --> UC7
+
+' Связи для администратора
+admin --> UC8
+admin --> UC9
+
+' Связи для складского работника
+warehouse --> UC10
+warehouse --> UC11
+warehouse --> UC12
+
+' Связи типа include
+UC2 ..> UC1 : <<include>>
+UC2 ..> UC3 : <<include>>
+
+@enduml
