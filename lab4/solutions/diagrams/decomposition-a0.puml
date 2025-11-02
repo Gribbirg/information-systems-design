@@ -1,0 +1,118 @@
+@startuml decomposition-a0
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam rectangleBorderColor #2E5090
+skinparam rectangleBackgroundColor #4472C4
+skinparam rectangleFontColor white
+skinparam rectangleFontSize 10
+skinparam rectangleFontStyle bold
+skinparam arrowColor black
+skinparam arrowThickness 2
+
+title Диаграмма декомпозиции A0\nУправление прокатом спортивного оборудования SportRent\n
+
+legend top left
+|= **Параметр** |= **Значение** |
+| USED AT: | Декомпозиция функциональной модели |
+| AUTHOR: | Студент |
+| DATE: | 02.11.2025 |
+| PROJECT: | SportRent |
+| REV: | 1.0 |
+| NOTES: | Первый уровень декомпозиции (A0) |
+| NODE: | A0 |
+endlegend
+
+' Функциональные блоки уровня A0
+rectangle "**Управлять\nаутентификацией\nи профилями\nклиентов**\n\nA1" as A1 #4472C4
+rectangle "**Управлять\nкаталогом\nоборудования**\n\nA2" as A2 #4472C4
+rectangle "**Обрабатывать\nбронирование\nи заказы**\n\nA3" as A3 #4472C4
+rectangle "**Обрабатывать\nплатежи**\n\nA4" as A4 #4472C4
+rectangle "**Управлять\nсkladскими\nоперациями**\n\nA5" as A5 #4472C4
+rectangle "**Формировать\nотчетность**\n\nA6" as A6 #4472C4
+
+' Внешние входы (слева)
+storage "Заявка клиента\nна аренду" as Input1 #FFF2CC
+storage "Персональные\nданные клиента" as Input2 #FFF2CC
+storage "Данные об\nоборудовании" as Input3 #FFF2CC
+storage "Платежная\nинформация" as Input4 #FFF2CC
+
+' Управление (сверху)
+collections "ФЗ-152 о\nперсональных\nданных" as Control1 #E7E6E6
+collections "Политика\nкомпании" as Control2 #E7E6E6
+collections "ГОСТ\n34.602-2020" as Control3 #E7E6E6
+collections "Алгоритмы\nобработки\nзаказов" as Control4 #E7E6E6
+
+' Внешние выходы (справа)
+file "Договор\nаренды" as Output1 #D5E8D4
+file "Квитанция\nоб оплате" as Output2 #D5E8D4
+file "Акт приема-\nпередачи" as Output3 #D5E8D4
+file "Отчеты и\nаналитика" as Output4 #D5E8D4
+file "Информация\nо статусе" as Output5 #D5E8D4
+
+' Механизмы (снизу)
+actor "Клиенты" as Mech1
+actor "Менеджеры" as Mech2
+actor "Администраторы" as Mech3
+actor "Складской\nперсонал" as Mech4
+database "СУБД\nPostgreSQL" as Mech5
+cloud "Платежная\nсистема" as Mech6
+
+' Входящие потоки из внешних источников
+Input2 -right-> A1 : I2
+Input3 -right-> A2 : I3
+Input1 -right-> A3 : I1
+Input4 -right-> A4 : I4
+
+' Управляющие потоки
+Control1 -down-> A1 : C1
+Control2 -down-> A1 : C2
+Control2 -down-> A2 : C2
+Control3 -down-> A2 : C3
+Control4 -down-> A3 : C4
+Control2 -down-> A3 : C2
+Control2 -down-> A4 : C2
+Control2 -down-> A5 : C2
+Control3 -down-> A6 : C3
+
+' Внутренние потоки данных между блоками
+A1 -right-> A3 : Профиль\nклиента
+A2 -down-> A3 : Информация\nо доступности
+A3 -right-> A4 : Данные\nдля оплаты
+A3 -down-> A5 : Подтвержденный\nзаказ
+A4 -down-> A5 : Подтверждение\nоплаты
+A5 -down-> A6 : Данные о\nвыдаче/возврате
+A4 -down-> A6 : Данные о\nплатежах
+A3 -down-> A6 : Данные о\nзаказах
+
+' Исходящие потоки к внешним выходам
+A3 -right-> Output1 : O1
+A4 -right-> Output2 : O2
+A5 -right-> Output3 : O3
+A6 -right-> Output4 : O4
+A5 -right-> Output5 : O5
+
+' Механизмы к блокам
+Mech1 -up-> A1 : M1
+Mech3 -up-> A1 : M3
+Mech5 -up-> A1 : M5
+
+Mech2 -up-> A2 : M2
+Mech5 -up-> A2 : M5
+
+Mech1 -up-> A3 : M1
+Mech2 -up-> A3 : M2
+Mech5 -up-> A3 : M5
+
+Mech5 -up-> A4 : M5
+Mech6 -up-> A4 : M6
+
+Mech4 -up-> A5 : M4
+Mech5 -up-> A5 : M5
+
+Mech2 -up-> A6 : M2
+Mech3 -up-> A6 : M3
+Mech5 -up-> A6 : M5
+
+@enduml

@@ -1,0 +1,90 @@
+@startuml decomposition-a3
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam rectangleBorderColor #2E5090
+skinparam rectangleBackgroundColor #4472C4
+skinparam rectangleFontColor white
+skinparam rectangleFontSize 10
+skinparam rectangleFontStyle bold
+skinparam arrowColor black
+skinparam arrowThickness 2
+
+title Диаграмма декомпозиции A3\nОбработка бронирования и заказов\n
+
+legend top left
+|= **Параметр** |= **Значение** |
+| USED AT: | Декомпозиция блока A3 |
+| AUTHOR: | Студент |
+| DATE: | 02.11.2025 |
+| PROJECT: | SportRent |
+| REV: | 1.0 |
+| NOTES: | Второй уровень декомпозиции (A3) |
+| NODE: | A3 |
+endlegend
+
+' Функциональные блоки уровня A3
+rectangle "**Проверять\nдоступность\nоборудования**\n\nA31" as A31 #4472C4
+rectangle "**Формировать\nбронирование**\n\nA32" as A32 #4472C4
+rectangle "**Оформлять\nдоговор\nаренды**\n\nA33" as A33 #4472C4
+rectangle "**Передавать\nзаказ на\nоплату**\n\nA34" as A34 #4472C4
+rectangle "**Подтверждать\nзаказ**\n\nA35" as A35 #4472C4
+
+' Внешние входы (слева - из родительской диаграммы)
+storage "Заявка клиента\nна аренду" as Input1 #FFF2CC
+storage "Профиль\nклиента" as InputA1 #FFF2CC
+storage "Информация\nо доступности" as InputA2 #FFF2CC
+
+' Управление (сверху - из родительской диаграммы)
+collections "Алгоритмы\nобработки\nзаказов" as Control4 #E7E6E6
+collections "Политика\nкомпании" as Control2 #E7E6E6
+
+' Внешние выходы (справа - к другим блокам и внешним выходам)
+file "Договор\nаренды" as Output1 #D5E8D4
+file "Данные\nдля оплаты" as OutputA4 #D5E8D4
+file "Подтвержденный\nзаказ" as OutputA5 #D5E8D4
+file "Данные о\nзаказах" as OutputA6 #D5E8D4
+
+' Механизмы (снизу - из родительской диаграммы)
+actor "Клиенты" as Mech1
+actor "Менеджеры" as Mech2
+database "СУБД\nPostgreSQL" as Mech5
+
+' Входящие потоки
+Input1 -right-> A31 : I1
+InputA1 -right-> A32 : Профиль
+InputA2 -right-> A31 : Доступность
+
+' Управляющие потоки
+Control4 -down-> A31 : C4
+Control4 -down-> A32 : C4
+Control2 -down-> A33 : C2
+Control4 -down-> A33 : C4
+Control2 -down-> A34 : C2
+Control2 -down-> A35 : C2
+
+' Внутренние потоки данных
+A31 -right-> A32 : Результат\nпроверки
+A32 -right-> A33 : Данные\nбронирования
+A33 -down-> A34 : Проект\nдоговора
+A34 -right-> A35 : Запрос на\nподтверждение
+A35 -up-> A33 : Статус\nоплаты
+
+' Исходящие потоки
+A33 -right-> Output1 : O1
+A34 -right-> OutputA4 : К A4
+A35 -right-> OutputA5 : К A5
+A35 -down-> OutputA6 : К A6
+
+' Механизмы к блокам
+Mech5 -up-> A31 : M5
+Mech1 -up-> A32 : M1
+Mech5 -up-> A32 : M5
+Mech2 -up-> A33 : M2
+Mech5 -up-> A33 : M5
+Mech5 -up-> A34 : M5
+Mech5 -up-> A35 : M5
+Mech2 -up-> A35 : M2
+
+@enduml
