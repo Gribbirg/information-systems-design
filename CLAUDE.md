@@ -77,6 +77,10 @@ When working on a laboratory assignment, follow these steps in order:
 3. Follow recommendations from `/docs/report-formatting-guidelines.md`
 4. Use Pandoc-specific features (page breaks, custom styles, etc.)
 5. Reference diagrams from `../solutions/diagrams/`
+6. **IMPORTANT:** Use only ONE first-level heading (H1) with the lab work title at the beginning of the report
+   - All other sections MUST use second-level headings (H2) or lower
+   - This ensures proper structure when reports are combined into a single document
+   - Example: `# Практическая работа № 2` (only once), then `## Цель работы`, `## Теоретическая часть`, etc.
 
 ### Step 4: Convert to DOCX
 1. Use Pandoc to convert `labN/report/report.md` to `labN/report/report.docx`
