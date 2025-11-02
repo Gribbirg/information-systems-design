@@ -36,19 +36,22 @@ Directories for practical assignments (laboratory works 1-8).
 Each laboratory work has the following structure:
 ```
 labN/
-└── task/
-    └── README.md
+├── task/
+│   └── README.md
+└── report/
 ```
 
-- `task/` - directory with assignment and solution
-- `README.md` - assignment description, implementation process, and results
+- `task/` - directory with assignment requirements, implementation process, and working materials
+  - `README.md` - assignment description, implementation details, and results
+- `report/` - directory for final formatted reports ready for submission
 
 ## Workflow
 
-1. For each laboratory work, materials are placed in the corresponding `labN/task/` directory
+1. For each laboratory work, working materials are placed in the corresponding `labN/task/` directory
 2. Use PlantUML from `/common/plantuml/` to create diagrams
-3. Follow the recommendations from `/docs/` for work formatting
-4. All changes are committed through Git
+3. Follow the recommendations from `/docs/report-formatting-guidelines.md` for report formatting
+4. Final reports are placed in the `labN/report/` directory
+5. All changes are committed through Git
 
 ## Tools
 
