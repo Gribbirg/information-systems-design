@@ -1,0 +1,96 @@
+{
+  "ese_description": "Количество заказов на аренду спортивного оборудования в день",
+  "min_value": 50,
+  "max_value": 150,
+  "num_records": 100,
+  "num_intervals": 10,
+  "interval_width": 10.0,
+  "data_first_10": [
+    50,
+    53,
+    53,
+    53,
+    54,
+    55,
+    55,
+    58,
+    59,
+    60
+  ],
+  "intervals": [
+    {
+      "lower": 50.0,
+      "upper": 60.0,
+      "center": 55.0,
+      "frequency": 9,
+      "probability": 0.09
+    },
+    {
+      "lower": 60.0,
+      "upper": 70.0,
+      "center": 65.0,
+      "frequency": 13,
+      "probability": 0.13
+    },
+    {
+      "lower": 70.0,
+      "upper": 80.0,
+      "center": 75.0,
+      "frequency": 14,
+      "probability": 0.14
+    },
+    {
+      "lower": 80.0,
+      "upper": 90.0,
+      "center": 85.0,
+      "frequency": 10,
+      "probability": 0.1
+    },
+    {
+      "lower": 90.0,
+      "upper": 100.0,
+      "center": 95.0,
+      "frequency": 11,
+      "probability": 0.11
+    },
+    {
+      "lower": 100.0,
+      "upper": 110.0,
+      "center": 105.0,
+      "frequency": 6,
+      "probability": 0.06
+    },
+    {
+      "lower": 110.0,
+      "upper": 120.0,
+      "center": 115.0,
+      "frequency": 5,
+      "probability": 0.05
+    },
+    {
+      "lower": 120.0,
+      "upper": 130.0,
+      "center": 125.0,
+      "frequency": 9,
+      "probability": 0.09
+    },
+    {
+      "lower": 130.0,
+      "upper": 140.0,
+      "center": 135.0,
+      "frequency": 13,
+      "probability": 0.13
+    },
+    {
+      "lower": 140.0,
+      "upper": 150.0,
+      "center": 145.0,
+      "frequency": 10,
+      "probability": 0.1
+    }
+  ],
+  "expected_value": 98.2,
+  "variance": 881.76,
+  "std_deviation": 29.694443924747944,
+  "entropy": 3.2620084218951475
+}
